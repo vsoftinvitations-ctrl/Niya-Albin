@@ -595,14 +595,29 @@
 
     .cover {
       width: 100%;
-      max-width: 640px;
+      max-width: 100%;
       margin: 0 auto -44px;
       aspect-ratio: 3/4;
       overflow: hidden;
       -webkit-mask-image: linear-gradient(to bottom, #000 68%, transparent 100%);
       mask-image: linear-gradient(to bottom, #000 68%, transparent 100%);
       position: relative;
-      cursor: pointer;
+      cursor: default;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .cover {
+        height: 85vh;
+        min-height: 600px;
+        max-height: 950px;
+        aspect-ratio: auto;
+        margin: 0 auto -60px;
+        -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+        mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+      }
     }
 
     .cover img {
@@ -620,12 +635,6 @@
 
     .cover img.active {
       opacity: 1;
-      pointer-events: auto;
-    }
-
-    .cover:hover img.active {
-      transform: scale(1.03);
-      transition: opacity 3s ease-in-out, transform .4s ease;
     }
 
     @media(prefers-reduced-motion:reduce) {
@@ -1173,7 +1182,7 @@
 </section>
 
 <section id="intro">
-  <div class="cover r" role="button" tabindex="0" aria-label="View photo of Niya and Albin">
+  <div class="cover r">
     <img class="cover-slide active" src="${PHOTOS.a}" alt="Niya and Albin" decoding="async">
     <img class="cover-slide" src="${PHOTOS.c}" alt="Niya and Albin" decoding="async">
   </div>
@@ -1465,19 +1474,19 @@
     }
 
     document.getElementById('app').addEventListener('click', e => {
-      const target = e.target.closest('.ph, .cover');
+      const target = e.target.closest('.ph');
       if (target) {
-        const img = target.querySelector('img.active') || target.querySelector('img');
+        const img = target.querySelector('img');
         if (img) openLightbox(img.getAttribute('src') || img.src, img.alt);
       }
     });
 
     document.getElementById('app').addEventListener('keydown', e => {
       if (e.key === 'Enter' || e.key === ' ') {
-        const target = e.target.closest('.ph, .cover');
+        const target = e.target.closest('.ph');
         if (target && target === document.activeElement) {
           e.preventDefault();
-          const img = target.querySelector('img.active') || target.querySelector('img');
+          const img = target.querySelector('img');
           if (img) openLightbox(img.getAttribute('src') || img.src, img.alt);
         }
       }
