@@ -921,7 +921,69 @@
     .time {
       font-family: var(--serif);
       font-size: 1.6rem;
-      margin-top: 8px
+      margin-top: 8px;
+    }
+
+    /* countdown */
+    .countdown {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(6px, 2.2vw, 14px);
+      margin: 32px auto 0;
+      max-width: 440px;
+    }
+
+    .cd-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(10px, 2.8vw, 16px) clamp(4px, 1.8vw, 10px);
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(220, 201, 160, 0.55);
+      border-radius: 8px;
+      box-shadow: 0 4px 18px rgba(60, 50, 30, 0.05);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      min-width: clamp(58px, 17vw, 80px);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .cd-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(184, 152, 90, 0.15);
+      border-color: var(--gold);
+    }
+
+    .cd-num {
+      font-family: var(--serif);
+      font-size: clamp(1.7rem, 6.2vw, 2.4rem);
+      line-height: 1;
+      font-weight: 400;
+      color: var(--ink);
+      font-feature-settings: "tnum";
+      font-variant-numeric: tabular-nums;
+    }
+
+    .cd-lbl {
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    .cd-sep {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      color: var(--gold-soft);
+      line-height: 1;
+      margin-top: -12px;
+      user-select: none;
     }
 
     .pin {
@@ -1159,6 +1221,27 @@
   <div class="rule line-x r"></div>
   <div class="time r">${W.time}</div>
   ${D.malayalam ? `<div class="small r" style="margin-top:6px">${D.malayalam}</div>` : ''}
+  <div class="countdown r" aria-label="Countdown to wedding reception">
+    <div class="cd-item">
+      <span class="cd-num" id="cd-days">00</span>
+      <span class="cd-lbl">Days</span>
+    </div>
+    <div class="cd-sep" aria-hidden="true">:</div>
+    <div class="cd-item">
+      <span class="cd-num" id="cd-hours">00</span>
+      <span class="cd-lbl">Hours</span>
+    </div>
+    <div class="cd-sep" aria-hidden="true">:</div>
+    <div class="cd-item">
+      <span class="cd-num" id="cd-mins">00</span>
+      <span class="cd-lbl">Mins</span>
+    </div>
+    <div class="cd-sep" aria-hidden="true">:</div>
+    <div class="cd-item">
+      <span class="cd-num" id="cd-secs">00</span>
+      <span class="cd-lbl">Secs</span>
+    </div>
+  </div>
 </div></section>
 
 <section><div class="wrap">
@@ -1285,6 +1368,40 @@
         coverImgs[currentCoverSlide].classList.add('active');
       }, 6000);
     }
+
+    /* ===== Wedding Countdown Timer ===== */
+    const targetDate = new Date('2026-11-13T17:30:00+05:30').getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const diff = targetDate - now;
+
+      if (diff <= 0) {
+        const cdWrap = document.querySelector('.countdown');
+        if (cdWrap) {
+          cdWrap.innerHTML = '<p class="serif" style="font-size:1.5rem;color:var(--gold);letter-spacing:0.1em;margin:0 auto">The Celebration Has Begun!</p>';
+        }
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      const dEl = document.getElementById('cd-days');
+      const hEl = document.getElementById('cd-hours');
+      const mEl = document.getElementById('cd-mins');
+      const sEl = document.getElementById('cd-secs');
+
+      if (dEl) dEl.textContent = String(days).padStart(2, '0');
+      if (hEl) hEl.textContent = String(hours).padStart(2, '0');
+      if (mEl) mEl.textContent = String(minutes).padStart(2, '0');
+      if (sEl) sEl.textContent = String(seconds).padStart(2, '0');
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
 
     /* ===== Lightbox photo viewer ===== */
     const lb = document.getElementById('lightbox');
