@@ -1252,14 +1252,19 @@
 
     /* ===== Background Music Playback ===== */
     const audio = document.getElementById('wedding-audio');
+    if (audio) {
+      audio.volume = 0.35;
+    }
 
     function playAudio() {
       if (!audio) return;
+      audio.volume = 0.35;
       const playPromise = audio.play();
       if (playPromise !== undefined) {
         playPromise.catch(err => {
           console.log("Audio waiting for user gesture:", err);
           const resume = () => {
+            audio.volume = 0.35;
             audio.play().catch(() => { });
             window.removeEventListener('click', resume);
             window.removeEventListener('touchstart', resume);
