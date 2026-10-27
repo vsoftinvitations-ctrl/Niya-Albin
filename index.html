@@ -637,7 +637,9 @@
       overflow: hidden;
       border-radius: 6px;
       box-shadow: 0 8px 28px rgba(60, 50, 30, .12);
-      background: var(--cream)
+      background: var(--cream);
+      cursor: pointer;
+      position: relative;
     }
 
     .ph img {
@@ -646,21 +648,27 @@
       height: 100%;
       object-fit: cover;
       transform: scale(1.03);
-      transition: transform 2.6s ease
+      transition: transform 2.6s ease;
     }
 
     .in.ph img,
     .in .ph img {
-      transform: none
+      transform: none;
+    }
+
+    .ph:hover img,
+    .cover:hover img {
+      transform: scale(1.04);
+      transition: transform .4s ease;
     }
 
     .ga {
       width: 80%;
-      aspect-ratio: 4/5
+      aspect-ratio: 4/5;
     }
 
     .ga img {
-      object-position: 50% 28%
+      object-position: 50% 28%;
     }
 
     .gb {
@@ -669,17 +677,185 @@
       bottom: 0;
       width: 54%;
       aspect-ratio: 3/4;
-      border: 6px solid var(--ivory)
+      border: 6px solid var(--ivory);
     }
 
     .gb img {
-      object-position: 50% 36%
+      object-position: 50% 36%;
     }
+
+    .cover {
+      cursor: pointer;
+      position: relative;
+    }
+
+    /* Lightbox Modal */
+    dialog.lightbox {
+      display: none;
+    }
+
+    dialog.lightbox[open] {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      max-width: 100vw;
+      max-height: 100vh;
+      margin: 0;
+      padding: 0;
+      border: none;
+      background: rgba(14, 12, 10, 0.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      z-index: 10000;
+      animation: lbFadeIn .25s ease-out;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    dialog.lightbox::backdrop {
+      background: rgba(14, 12, 10, 0.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    @keyframes lbFadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .lightbox-dialog-body {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      max-width: 94vw;
+      max-height: 94vh;
+      padding: 16px;
+      animation: lbScaleUp .28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes lbScaleUp {
+      from {
+        transform: scale(0.92);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .lightbox-img-wrap {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, .7), 0 0 0 1px rgba(220, 201, 160, .35);
+      background: #15120e;
+      max-width: 92vw;
+      max-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox-img-wrap img {
+      display: block;
+      max-width: min(92vw, 1000px);
+      max-height: min(80vh, 880px);
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      margin: 0 auto;
+      transition: opacity .2s ease;
+    }
+
+    .lightbox-caption {
+      margin: 14px 0 0;
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      letter-spacing: .15em;
+      color: var(--gold-soft);
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .lightbox-close {
+      position: fixed;
+      top: max(16px, env(safe-area-inset-top, 16px));
+      right: max(16px, env(safe-area-inset-right, 16px));
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(30, 26, 22, .75);
+      border: 1px solid rgba(220, 201, 160, .45);
+      color: #faf6ee;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .2s ease;
+      z-index: 10002;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .4);
+    }
+
+    .lightbox-close:hover,
+    .lightbox-close:focus-visible {
+      background: var(--gold);
+      color: #fff;
+      transform: scale(1.08);
+      border-color: #fff;
+    }
+
+    .lightbox-nav {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(30, 26, 22, .7);
+      border: 1px solid rgba(220, 201, 160, .45);
+      color: #faf6ee;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .2s ease;
+      z-index: 10002;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .4);
+    }
+
+    .lightbox-prev {
+      left: max(16px, env(safe-area-inset-left, 16px));
+    }
+
+    .lightbox-next {
+      right: max(16px, env(safe-area-inset-right, 16px));
+    }
+
+    .lightbox-nav:hover,
+    .lightbox-nav:focus-visible {
+      background: var(--gold);
+      color: #fff;
+      transform: translateY(-50%) scale(1.08);
+      border-color: #fff;
+    }
+
+
 
     @media(prefers-reduced-motion:reduce) {
       .ph img {
         transition: none;
-        transform: none
+        transform: none;
       }
     }
 
@@ -859,6 +1035,31 @@
     <source src="music/song.mp3" type="audio/mpeg">
   </audio>
   <main id="app"></main>
+  <!-- Lightbox Modal -->
+  <dialog id="lightbox" class="lightbox" aria-label="Photo view">
+    <button class="lightbox-close" type="button" aria-label="Close photo view">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous photo">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+    <button class="lightbox-nav lightbox-next" type="button" aria-label="Next photo">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+    <div class="lightbox-dialog-body">
+      <div class="lightbox-img-wrap">
+        <img id="lightbox-img" src="" alt="Wedding photo">
+      </div>
+      <p class="lightbox-caption" id="lightbox-caption">Niya &amp; Albin</p>
+    </div>
+  </dialog>
   <footer class="foot">
     <div class="serif" id="fmono"></div>
     <div class="small" style="margin-top:8px" id="fdate"></div>
@@ -905,7 +1106,7 @@
 </section>
 
 <section id="intro">
-  <div class="cover r"><img src="${PHOTOS.a}" alt="Niya and Albin" decoding="async"></div>
+  <div class="cover r" role="button" tabindex="0" aria-label="View photo of Niya and Albin"><img src="${PHOTOS.a}" alt="Niya and Albin" decoding="async"></div>
   <div class="wrap">
     <p class="label r">Together with their families</p>
     <h2 class="intro-names r" aria-label="${W.bride} & ${W.groom}">
@@ -993,8 +1194,8 @@
 
 <section><div class="wrap" style="max-width:560px">
   <div class="gal">
-    <div class="ph ga r"><img src="${PHOTOS.b}" alt="Niya and Albin" loading="lazy" decoding="async"></div>
-    <div class="ph gb r"><img src="${PHOTOS.a}" alt="Niya and Albin" loading="lazy" decoding="async"></div>
+    <div class="ph ga r" role="button" tabindex="0" aria-label="View photo of Niya and Albin"><img src="${PHOTOS.b}" alt="Niya and Albin" loading="lazy" decoding="async"></div>
+    <div class="ph gb r" role="button" tabindex="0" aria-label="View photo of Niya and Albin"><img src="${PHOTOS.a}" alt="Niya and Albin" loading="lazy" decoding="async"></div>
   </div>
 </div></section>
 
@@ -1060,6 +1261,106 @@
         });
       }
     }
+
+    /* ===== Lightbox photo viewer ===== */
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightbox-img');
+    const lbCap = document.getElementById('lightbox-caption');
+    const lbPrev = document.querySelector('.lightbox-prev');
+    const lbNext = document.querySelector('.lightbox-next');
+    const galleryItems = [
+      { src: PHOTOS.b, caption: "Niya & Albin" },
+      { src: PHOTOS.a, caption: "Niya & Albin" }
+    ];
+    let currentPhotoIdx = 0;
+
+    function showPhotoAt(idx) {
+      if (idx < 0) idx = galleryItems.length - 1;
+      if (idx >= galleryItems.length) idx = 0;
+      currentPhotoIdx = idx;
+      if (lbImg) {
+        lbImg.style.opacity = '0';
+        setTimeout(() => {
+          lbImg.src = galleryItems[currentPhotoIdx].src;
+          lbImg.alt = galleryItems[currentPhotoIdx].caption;
+          lbImg.style.opacity = '1';
+        }, 120);
+      }
+      if (lbCap) {
+        lbCap.textContent = galleryItems[currentPhotoIdx].caption;
+      }
+    }
+
+    function openLightbox(src, alt) {
+      if (!lb || !lbImg) return;
+      const cleanSrc = (src || '').split('/').pop();
+      const foundIdx = galleryItems.findIndex(item => cleanSrc && item.src && (cleanSrc.includes(item.src) || item.src.includes(cleanSrc)));
+      currentPhotoIdx = foundIdx >= 0 ? foundIdx : 0;
+      lbImg.src = galleryItems[currentPhotoIdx] ? galleryItems[currentPhotoIdx].src : src;
+      lbImg.alt = alt || "Niya & Albin";
+      if (lbCap) lbCap.textContent = alt || "Niya & Albin";
+      lbImg.style.opacity = '1';
+
+      if (typeof lb.showModal === 'function') {
+        lb.showModal();
+      } else {
+        lb.setAttribute('open', '');
+      }
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      if (!lb) return;
+      if (typeof lb.close === 'function') {
+        lb.close();
+      } else {
+        lb.removeAttribute('open');
+      }
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('app').addEventListener('click', e => {
+      const target = e.target.closest('.ph, .cover');
+      if (target) {
+        const img = target.querySelector('img');
+        if (img) openLightbox(img.getAttribute('src') || img.src, img.alt);
+      }
+    });
+
+    document.getElementById('app').addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        const target = e.target.closest('.ph, .cover');
+        if (target && target === document.activeElement) {
+          e.preventDefault();
+          const img = target.querySelector('img');
+          if (img) openLightbox(img.getAttribute('src') || img.src, img.alt);
+        }
+      }
+    });
+
+    document.querySelector('.lightbox-close')?.addEventListener('click', closeLightbox);
+    lbPrev?.addEventListener('click', e => { e.stopPropagation(); showPhotoAt(currentPhotoIdx - 1); });
+    lbNext?.addEventListener('click', e => { e.stopPropagation(); showPhotoAt(currentPhotoIdx + 1); });
+
+    lb?.addEventListener('click', e => {
+      if (!e.target.closest('.lightbox-img-wrap') && !e.target.closest('.lightbox-nav')) {
+        closeLightbox();
+      }
+    });
+
+    window.addEventListener('keydown', e => {
+      if (!lb || !lb.hasAttribute('open')) return;
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeLightbox();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        showPhotoAt(currentPhotoIdx - 1);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        showPhotoAt(currentPhotoIdx + 1);
+      }
+    });
   </script>
 </body>
 
