@@ -455,31 +455,55 @@
       padding-left: .2em
     }
 
-    .date {
-      font-family: var(--serif);
-      font-size: 1.5rem;
-      letter-spacing: .14em;
-      margin-top: 34px;
+    .hero-bottom {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      margin-top: 40px;
     }
 
-    @media (max-width: 640px) {
-      .date {
-        margin-top: clamp(52px, 11vh, 90px);
-      }
+    .date {
+      font-family: var(--serif);
+      font-size: clamp(1.25rem, 4.6vw, 1.55rem);
+      letter-spacing: .12em;
+      white-space: nowrap;
     }
 
     .day {
-      font-size: .7rem;
+      font-size: .72rem;
       letter-spacing: .32em;
       text-transform: uppercase;
       color: var(--mute);
-      margin-top: 2px
+      margin-top: 4px;
     }
 
     .tag {
-      margin: 28px 0 38px;
+      margin: 22px 0 32px;
       color: var(--mute);
-      font-size: .9rem
+      font-size: .88rem;
+    }
+
+    @media (max-width: 640px) {
+      #hero {
+        justify-content: space-between;
+        padding-top: clamp(48px, 10vh, 72px);
+        padding-bottom: clamp(38px, 6vh, 48px);
+      }
+
+      .names {
+        margin-top: auto;
+        margin-bottom: auto;
+      }
+
+      .hero-bottom {
+        margin-top: auto;
+      }
+
+      .tag {
+        margin: 16px 0 26px;
+        font-size: 0.82rem;
+      }
     }
 
     .btn {
@@ -872,10 +896,12 @@
 <section id="hero">
   <div class="hero-shadow-bg" aria-hidden="true"></div>
   <h1 class="names"><span class="seq" style="--i:1;display:block">${W.brideFirst}</span><span class="amp seq" style="--i:2">&amp;</span><span class="seq" style="--i:3;display:block">${W.groomFirst}</span></h1>
-  <div class="date seq" style="--i:4">${D.full}</div>
-  <div class="day seq" style="--i:4">${D.day}</div>
-  <p class="tag seq" style="--i:5">${W.tagline}</p>
-  <a class="btn seq" style="--i:6" href="#intro">Open Invitation</a>
+  <div class="hero-bottom">
+    <div class="date seq" style="--i:4">${D.num} ${D.month}</div>
+    <div class="day seq" style="--i:5">${D.day}</div>
+    <p class="tag seq" style="--i:6">${W.tagline}</p>
+    <a class="btn seq" style="--i:7" href="#intro">Open Invitation</a>
+  </div>
 </section>
 
 <section id="intro">
