@@ -459,7 +459,13 @@
       font-family: var(--serif);
       font-size: 1.5rem;
       letter-spacing: .14em;
-      margin-top: 34px
+      margin-top: 34px;
+    }
+
+    @media (max-width: 640px) {
+      .date {
+        margin-top: clamp(52px, 11vh, 90px);
+      }
     }
 
     .day {
